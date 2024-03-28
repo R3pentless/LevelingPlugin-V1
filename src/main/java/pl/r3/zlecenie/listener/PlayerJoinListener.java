@@ -5,8 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import pl.r3.zlecenie.DatabaseManager;
-import pl.r3.zlecenie.user.User;
-import pl.r3.zlecenie.user.UserManager;
+import pl.r3.zlecenie.user.UserData;
 
 import java.util.UUID;
 import java.util.logging.Level;
@@ -16,11 +15,9 @@ import static org.bukkit.Bukkit.getLogger;
 public class PlayerJoinListener implements Listener {
 
     private final DatabaseManager databaseManager;
-    private final UserManager userManager;
 
-    public PlayerJoinListener(DatabaseManager databaseManager, UserManager userManager) {
+    public PlayerJoinListener(DatabaseManager databaseManager) {
         this.databaseManager = databaseManager;
-        this.userManager = userManager;
     }
 
     @EventHandler
@@ -37,8 +34,7 @@ public class PlayerJoinListener implements Listener {
             int exp = databaseManager.getPlayerExp(playerUUID);
             int highestRewardReceived = databaseManager.getHighestRewardReceived(playerUUID);
 
-            User user = new User(player, level, exp, highestRewardReceived);
-            userManager.addUser(playerUUID, user);
+
         }
     }
 }

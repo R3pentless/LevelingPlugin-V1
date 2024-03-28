@@ -9,8 +9,7 @@ import pl.r3.zlecenie.gui.GuiManager;
 import pl.r3.zlecenie.level.LevelListener;
 import pl.r3.zlecenie.level.LevelManager;
 import pl.r3.zlecenie.listener.PlayerJoinListener;
-import pl.r3.zlecenie.user.User;
-import pl.r3.zlecenie.user.UserManager;
+import pl.r3.zlecenie.user.UserData;
 
 import java.util.logging.Level;
 import java.util.stream.Stream;
@@ -21,11 +20,9 @@ public final class Zlecenie extends JavaPlugin {
     private ExpManager expManager;
     private PlayerJoinListener playerJoinListener;
     private LevelListener levelListener;
-    private UserManager userManager;
     private GuiListener guiListener;
     private ConfigManager configManager;
     private GuiManager guiManager;
-    private User user;
     private int taskId;
 
     @Override
@@ -49,12 +46,18 @@ public final class Zlecenie extends JavaPlugin {
 
         // Initialize managers
         guiManager = new GuiManager(this, getConfig());
-        userManager = new UserManager(databaseManager);
+
+        configManager = new ConfigManager(getConfig());
+
+
+        lvlManager = new LevelManager(databaseManager, getConfig());
+
         guiListener = new GuiListener(this, databaseManager);
-        lvlManager = new LevelManager(databaseManager, getConfig(), userManager, user);
-        guiListener = new GuiListener(this, databaseManager);
-        expManager = new ExpManager(this, lvlManager, userManager, configManager);
-        playerJoinListener = new PlayerJoinListener(databaseManager, userManager);
+
+        expManager = new ExpManager(this, lvlManager,  configManager);
+
+        playerJoinListener = new PlayerJoinListener(databaseManager);
+
         levelListener = new LevelListener();
 
         // Register event listeners
@@ -71,7 +74,7 @@ public final class Zlecenie extends JavaPlugin {
         int delay = 6000; // 5 minutes (20 ticks per second)
         int period = 6000; // 5 minutes
         taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            userManager.updateDatabaseFromCache();
+//missing
         }, delay, period);
     }
 

@@ -16,8 +16,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.r3.zlecenie.config.ConfigManager;
 import pl.r3.zlecenie.level.LevelManager;
-import pl.r3.zlecenie.user.User;
-import pl.r3.zlecenie.user.UserManager;
+import pl.r3.zlecenie.user.UserData;
 
 import java.text.DecimalFormat;
 import java.util.UUID;
@@ -30,7 +29,7 @@ public class ExpManager implements Listener {
     private final UserManager userManager;
     private final ConfigManager configManager;
 
-    public ExpManager(JavaPlugin plugin, LevelManager levelManager, UserManager userManager, ConfigManager configManager) {
+    public ExpManager(JavaPlugin plugin, LevelManager levelManager, ConfigManager configManager) {
         this.plugin = plugin;
         this.levelManager = levelManager;
         this.userManager = userManager;
@@ -39,7 +38,7 @@ public class ExpManager implements Listener {
 
     private void awardExp(Player player, int exp) {
         UUID playerId = player.getUniqueId();
-        User user = userManager.getUserByUUID(playerId).orElse(null);
+        UserData user = userManager.getUserByUUID(playerId).orElse(null);
         if (user != null) {
             int level = user.getLevel();
             int currentExp = user.getExp();

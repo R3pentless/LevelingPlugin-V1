@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.r3.zlecenie.Zlecenie;
 import pl.r3.zlecenie.utills.ColorFixer;
-import pl.r3.zlecenie.user.User;
+import pl.r3.zlecenie.user.UserData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.UUID;
 
 public class GuiManager {
     private static FileConfiguration config;
-    private static User user;
+    private static UserData user;
     private static ColorFixer colorFixer;
     private static Zlecenie plugin;
 

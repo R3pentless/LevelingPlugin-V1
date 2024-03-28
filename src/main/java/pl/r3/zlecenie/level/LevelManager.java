@@ -5,8 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import pl.r3.zlecenie.DatabaseManager;
 import pl.r3.zlecenie.config.ConfigManager;
-import pl.r3.zlecenie.user.User;
-import pl.r3.zlecenie.user.UserManager;
+import pl.r3.zlecenie.user.UserData;
 
 import java.util.UUID;
 
@@ -14,9 +13,9 @@ public class LevelManager implements Listener {
     private final DatabaseManager databaseManager;
     private static FileConfiguration config;
     private final UserManager userManager;
-    private final User user;
+    private final UserData user;
 
-    public LevelManager(DatabaseManager databaseManager, FileConfiguration config, UserManager userManager, User user) {
+    public LevelManager(DatabaseManager databaseManager, FileConfiguration config) {
         this.databaseManager = databaseManager;
         this.userManager = userManager;
         this.user = user;

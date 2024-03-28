@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.r3.zlecenie.DatabaseManager;
 import pl.r3.zlecenie.Zlecenie;
+import pl.r3.zlecenie.user.UserData;
 
 import java.util.*;
 
@@ -18,10 +19,12 @@ public class GuiListener implements Listener {
 
     private final Zlecenie plugin;
     private final DatabaseManager databaseManager;
+    private final UserData user;
 
     public GuiListener(Zlecenie plugin, DatabaseManager databaseManager) {
         this.plugin = plugin;
         this.databaseManager = databaseManager;
+        this.user = user;
     }
 
     @EventHandler

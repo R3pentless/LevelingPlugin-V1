@@ -4,8 +4,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import pl.r3.zlecenie.DatabaseManager;
-import pl.r3.zlecenie.user.User;
-import pl.r3.zlecenie.user.UserManager;
+import pl.r3.zlecenie.user.UserData;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -26,7 +25,7 @@ public class PlayerDisconnectListener implements Listener {
         UUID playerId = event.getPlayer().getUniqueId();
 
         // Retrieve the user from the user manager
-        Optional<User> userOptional = userManager.getUserByUUID(playerId);
+        Optional<UserData> userOptional = userManager.getUserByUUID(playerId);
 
         // If the user exists, update their data in the database
         userOptional.ifPresent(user -> {

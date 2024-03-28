@@ -35,6 +35,7 @@ public class DatabaseManager {
         }
     }
 
+
     public boolean tableExists(String tableName) {
         try {
             DatabaseMetaData metaData = connection.getMetaData();
