@@ -1,0 +1,9 @@
+name: zlecenie
+version: '${project.version}'
+main: pl.r3.zlecenie.Zlecenie
+api-version: '1.20'
+commands:
+  zlecenie:
+    description: Open the XP Rewards GUI
+    usage: /zlecenie
+    permission: yourplugin.command.opengui
