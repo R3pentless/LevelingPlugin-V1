@@ -1,0 +1,59 @@
+database:
+  host: "localhost"
+  port: 3306
+  database: "zlecenie"
+  username: "root"
+  password: ""
+gui:
+  name: "&8nazwa"
+  size: 27
+  items:
+    - slot: 0
+      type_unclaimed: chest_minecart
+      type_claimed: minecart
+      amount: 1
+      name_unclaimed: "&5Nagroda #1"
+      lore_unclaimed: "&7This is the first reward||&7linijka2"
+      name_claimed: "&5Nagroda #1 (Claimed)"
+      lore_claimed: "&7This reward has already been claimed"
+      reward: true
+      reward_number: 1
+      level_required: 5
+      rewards:
+        - reward: 1
+          type: stone
+          amount: 1
+          name: "Cool Reward"
+          lore: "&bThis is a cool reward"
+  items-decoration:
+    - slot: 10
+      type: RED_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7Name"
+      lore: "&7decoration||&7line2"
+
+messages:
+  no_requirements: "&7Nie spelniasz wymogow aby odebrac ta nagrode!"
+  already_claimed: "&cJuz odebrales ta nagrode!"
+  claim_success: "&aOdebrales nagrode!"
+messages_level:
+  received_exp: "+%exp% [%currentexp%/%requiredexp%] (%percent%%)"
+  reached_level: "&aCongratulations! You've reached level %level%."
+  too_low_level: "&cYou need to be at least level %level_required% to claim this reward!"
+exp:
+  activities:
+    entities:
+      ZOMBIE: 1
+      SKELETON: 2
+      SPIDER: 1
+    blocks:
+      DIAMOND_ORE: 3
+      COAL_ORE: 1
+levels:
+  experience_required:
+    1: 100
+    2: 200
+    3: 300
+    4: 400
+    5: 500
+  max_level: 5
