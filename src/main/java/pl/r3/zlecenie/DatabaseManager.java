@@ -112,7 +112,7 @@ public class DatabaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
+        return 0; // Default to 0 if an error occurs
     }
     public void updateHighestRewardReceived(UUID playerId, int newHighestRewardReceived) {
         String sql = "UPDATE player_data SET highest_reward_received = ? WHERE player_uuid = ?";
@@ -137,7 +137,7 @@ public class DatabaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
+        return 0; // Return 0 if the player level is not found or an error occurs
     }
     public int getPlayerExp(UUID playerId) {
         String sql = "SELECT player_exp FROM player_data WHERE player_uuid = ?";
@@ -151,7 +151,7 @@ public class DatabaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
+        return 0; // Return 0 if the player's experience is not found or an error occurs
     }
 
 

@@ -14,6 +14,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.r3.zlecenie.config.ConfigManager;
+import pl.r3.zlecenie.level.LevelManager;
+import pl.r3.zlecenie.user.User;
+import pl.r3.zlecenie.user.UserManager;
 
 import java.text.DecimalFormat;
 import java.util.UUID;
@@ -23,40 +27,51 @@ public class ExpManager implements Listener {
 
     private final JavaPlugin plugin;
     private final LevelManager levelManager;
-    private final DatabaseManager databaseManager;
+    private final UserManager userManager;
+    private final ConfigManager configManager;
 
-    public ExpManager(JavaPlugin plugin, LevelManager levelManager, DatabaseManager databaseManager) {
+    public ExpManager(JavaPlugin plugin, LevelManager levelManager, UserManager userManager, ConfigManager configManager) {
         this.plugin = plugin;
         this.levelManager = levelManager;
-        this.databaseManager = databaseManager;
+        this.userManager = userManager;
+        this.configManager = configManager;
     }
 
     private void awardExp(Player player, int exp) {
         UUID playerId = player.getUniqueId();
-        int level = databaseManager.getPlayerLevel(playerId);
-        int currentExp = databaseManager.getPlayerExp(playerId);
-        int requiredExp = levelManager.getRequiredExpForNextLevel(playerId, level);
-        currentExp += exp;
-        double progress = (double) currentExp / requiredExp * 100;
-        String progressString = df.format(progress).replace(',', '.');
-        double progressPercentage = Double.parseDouble(progressString);
-        if (level < levelManager.getMaxLevel()) {
-            String expMessage = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages_level.received_exp")
-                    .replace("%exp%", String.valueOf(exp)).replace("%currentexp%", String.valueOf(currentExp)).replace("%requiredexp%", String.valueOf(requiredExp)).replace("%percent%", String.valueOf(progressPercentage)));
-            sendActionBar(player, expMessage);
-            databaseManager.updatePlayerExp(playerId, currentExp);
-        }
-        while (currentExp >= requiredExp && level < levelManager.getMaxLevel()) {
-            level++;
-            requiredExp = levelManager.getRequiredExpForNextLevel(playerId, level);
-            String levelMessage = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages_level.reached_level")
-                    .replace("%level%", String.valueOf(level)));
-            player.sendMessage(levelMessage);
-            databaseManager.updatePlayerExp(playerId, 0);
-            databaseManager.updatePlayerLevel(playerId, level);
-        }
-        if (level < levelManager.getMaxLevel()) {
-            levelManager.displayPlayerLevel(player);
+        User user = userManager.getUserByUUID(playerId).orElse(null);
+        if (user != null) {
+            int level = user.getLevel();
+            int currentExp = user.getExp();
+            int requiredExp = configManager.getRequiredExpForNextLevel(level);
+            currentExp += exp;
+
+            double progress = (double) currentExp / requiredExp * 100;
+            String progressString = df.format(progress).replace(',', '.');
+            double progressPercentage = Double.parseDouble(progressString);
+
+            if (level < configManager.getMaxLevel()) {
+                String expMessage = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages_level.received_exp")
+                        .replace("%exp%", String.valueOf(exp)).replace("%currentexp%", String.valueOf(currentExp)).replace("%requiredexp%", String.valueOf(requiredExp)).replace("%percent%", String.valueOf(progressPercentage)));
+                sendActionBar(player, expMessage);
+                user.setExp(currentExp);
+                userManager.updateUser(playerId, user);
+            }
+
+            while (currentExp >= requiredExp && level < configManager.getMaxLevel()) {
+                level++;
+                requiredExp = configManager.getRequiredExpForNextLevel(level);
+                String levelMessage = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages_level.reached_level")
+                        .replace("%level%", String.valueOf(level)));
+                player.sendMessage(levelMessage);
+                user.setExp(0);
+                user.setLevel(level);
+                userManager.updateUser(playerId, user);
+            }
+
+            if (level < configManager.getMaxLevel()) {
+                levelManager.displayPlayerLevel(player);
+            }
         }
     }
 

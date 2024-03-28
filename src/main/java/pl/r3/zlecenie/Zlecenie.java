@@ -1,49 +1,38 @@
 package pl.r3.zlecenie;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.r3.zlecenie.config.ConfigManager;
+import pl.r3.zlecenie.gui.GuiListener;
+import pl.r3.zlecenie.gui.GuiManager;
+import pl.r3.zlecenie.level.LevelListener;
+import pl.r3.zlecenie.level.LevelManager;
+import pl.r3.zlecenie.listener.PlayerJoinListener;
+import pl.r3.zlecenie.user.User;
+import pl.r3.zlecenie.user.UserManager;
 
-import java.io.File;
-import java.util.UUID;
 import java.util.logging.Level;
+import java.util.stream.Stream;
 
-public final class Zlecenie extends JavaPlugin implements Listener {
-
-    private GuiManager guiManager;
+public final class Zlecenie extends JavaPlugin {
     private DatabaseManager databaseManager;
     private LevelManager lvlManager;
-    private ExpManager expManager; // Add reference to ExpManager
+    private ExpManager expManager;
+    private PlayerJoinListener playerJoinListener;
+    private LevelListener levelListener;
+    private UserManager userManager;
+    private GuiListener guiListener;
+    private ConfigManager configManager;
+    private GuiManager guiManager;
+    private User user;
+    private int taskId;
 
     @Override
     public void onEnable() {
-        // Call the method to create configuration files if they don't exist
-        ConfigCreator.createConfigFile(this);
-
-        // Save default config
         saveDefaultConfig();
+        initDatabase();
 
-        // Load database configuration
-        File databaseFile = new File(getDataFolder(), "database.yml");
-        FileConfiguration config = YamlConfiguration.loadConfiguration(databaseFile);
-
-        // Retrieve database connection parameters
-        String host = config.getString("database.host");
-        int port = config.getInt("database.port");
-        String database = config.getString("database.database");
-        String username = config.getString("database.username");
-        String password = config.getString("database.password");
-
-        // Initialize DatabaseManager
-        databaseManager = new DatabaseManager(host, port, database, username, password);
-
-        // Connect to the database
         if (databaseManager.connect()) {
             boolean tableCreated = databaseManager.createTable();
             boolean tableExist = databaseManager.tableExists("player_data");
@@ -58,51 +47,54 @@ public final class Zlecenie extends JavaPlugin implements Listener {
             return;
         }
 
-        // Initialize LevelManager after databaseManager
-        lvlManager = new LevelManager(databaseManager, getConfig());
-        getServer().getPluginManager().registerEvents(lvlManager, this);
+        // Initialize managers
+        guiManager = new GuiManager(this, getConfig());
+        userManager = new UserManager(databaseManager);
+        guiListener = new GuiListener(this, databaseManager);
+        lvlManager = new LevelManager(databaseManager, getConfig(), userManager, user);
+        guiListener = new GuiListener(this, databaseManager);
+        expManager = new ExpManager(this, lvlManager, userManager, configManager);
+        playerJoinListener = new PlayerJoinListener(databaseManager, userManager);
+        levelListener = new LevelListener();
 
-        // Initialize GuiManager after databaseManager
-        guiManager = new GuiManager(this, databaseManager);
-        getServer().getPluginManager().registerEvents(guiManager, this);
+        // Register event listeners
+        Stream.of(
+                lvlManager,
+                guiListener,
+                expManager,
+                playerJoinListener,
+                levelListener
+        ).forEach(listener -> getServer().getPluginManager().registerEvents((Listener) listener, this));
 
-        // Initialize ExpManager after databaseManager and lvlManager
-        expManager = new ExpManager(this, lvlManager, databaseManager);
-        getServer().getPluginManager().registerEvents(expManager, this);
+        getCommand("zlecenie").setExecutor(new GuiCommand(this, databaseManager, guiManager));
 
-        // Register listener for player join event
-        getServer().getPluginManager().registerEvents(this, this);
+        int delay = 6000; // 5 minutes (20 ticks per second)
+        int period = 6000; // 5 minutes
+        taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            userManager.updateDatabaseFromCache();
+        }, delay, period);
     }
-
 
     @Override
-    public void onDisable(){
-        databaseManager.disconnect();
-    }
+    public void onDisable() {
+        // Cancel the scheduled task
+        Bukkit.getScheduler().cancelTask(taskId);
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage("Only players can use this command.");
-            return true;
-        }
-
-        Player player = (Player) sender;
-        guiManager.openRewardsGUI(player);
-        return true;
-    }
-
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        String playerName = player.getName();
-        UUID playerUUID = player.getUniqueId();
-
-        // Check if player exists in the database
-        if (!databaseManager.playerExists(playerUUID)) {
-            // If not, insert player data into the database
-            databaseManager.insertPlayerData(playerName, playerUUID);
-            getLogger().log(Level.INFO, "Player data for " + playerName + " inserted into the database.");
+        // Disconnect from the database
+        if (databaseManager != null) {
+            databaseManager.disconnect();
         }
     }
+
+    private void initDatabase() {
+        String host = getConfig().getString("database.host");
+        int port = getConfig().getInt("database.port");
+        String database = getConfig().getString("database.database");
+        String username = getConfig().getString("database.username");
+        String password = getConfig().getString("database.password");
+
+        // Initialize DatabaseManager
+        databaseManager = new DatabaseManager(host, port, database, username, password);
+    }
+
 }
