@@ -1,14 +1,14 @@
-pl\r3\zlecenie\DatabaseManager.class
 pl\r3\zlecenie\level\LevelManager.class
 pl\r3\zlecenie\Zlecenie.class
 pl\r3\zlecenie\gui\GuiListener.class
 pl\r3\zlecenie\config\ConfigManager.class
 pl\r3\zlecenie\gui\GuiManager.class
 pl\r3\zlecenie\utills\ColorFixer.class
+pl\r3\zlecenie\gui\GuiCommand.class
 pl\r3\zlecenie\user\User.class
 pl\r3\zlecenie\user\UserManager.class
 pl\r3\zlecenie\listener\PlayerJoinListener.class
 pl\r3\zlecenie\listener\PlayerDisconnectListener.class
-pl\r3\zlecenie\ExpManager.class
+pl\r3\zlecenie\level\ExpManager.class
+pl\r3\zlecenie\utills\DatabaseManager.class
 pl\r3\zlecenie\level\LevelListener.class
-pl\r3\zlecenie\GuiCommand.class

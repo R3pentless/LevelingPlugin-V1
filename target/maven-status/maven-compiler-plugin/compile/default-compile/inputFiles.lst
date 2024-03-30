@@ -1,14 +1,14 @@
 D:\intelka\zlecenie\src\main\java\pl\r3\zlecenie\gui\GuiManager.java
-D:\intelka\zlecenie\src\main\java\pl\r3\zlecenie\GuiCommand.java
 D:\intelka\zlecenie\src\main\java\pl\r3\zlecenie\level\LevelManager.java
 D:\intelka\zlecenie\src\main\java\pl\r3\zlecenie\gui\GuiListener.java
 D:\intelka\zlecenie\src\main\java\pl\r3\zlecenie\user\User.java
 D:\intelka\zlecenie\src\main\java\pl\r3\zlecenie\utills\ColorFixer.java
 D:\intelka\zlecenie\src\main\java\pl\r3\zlecenie\config\ConfigManager.java
-D:\intelka\zlecenie\src\main\java\pl\r3\zlecenie\DatabaseManager.java
+D:\intelka\zlecenie\src\main\java\pl\r3\zlecenie\gui\GuiCommand.java
 D:\intelka\zlecenie\src\main\java\pl\r3\zlecenie\Zlecenie.java
 D:\intelka\zlecenie\src\main\java\pl\r3\zlecenie\listener\PlayerDisconnectListener.java
-D:\intelka\zlecenie\src\main\java\pl\r3\zlecenie\ExpManager.java
+D:\intelka\zlecenie\src\main\java\pl\r3\zlecenie\utills\DatabaseManager.java
 D:\intelka\zlecenie\src\main\java\pl\r3\zlecenie\listener\PlayerJoinListener.java
 D:\intelka\zlecenie\src\main\java\pl\r3\zlecenie\user\UserManager.java
+D:\intelka\zlecenie\src\main\java\pl\r3\zlecenie\level\ExpManager.java
 D:\intelka\zlecenie\src\main\java\pl\r3\zlecenie\level\LevelListener.java

@@ -3,42 +3,40 @@ package pl.r3.zlecenie.level;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import pl.r3.zlecenie.DatabaseManager;
+import pl.r3.zlecenie.utills.DatabaseManager;
 import pl.r3.zlecenie.config.ConfigManager;
-import pl.r3.zlecenie.user.UserData;
-
-import java.util.UUID;
+import pl.r3.zlecenie.user.User;
+import pl.r3.zlecenie.user.UserManager;
 
 public class LevelManager implements Listener {
-    private final DatabaseManager databaseManager;
-    private static FileConfiguration config;
-    private final UserManager userManager;
-    private final UserData user;
+    private DatabaseManager databaseManager;
+    private UserManager userManager;
 
-    public LevelManager(DatabaseManager databaseManager, FileConfiguration config) {
+    public LevelManager(DatabaseManager databaseManager, UserManager userManager) {
         this.databaseManager = databaseManager;
         this.userManager = userManager;
-        this.user = user;
     }
 
     public void displayPlayerLevel(Player player) {
-        UUID playerId = player.getUniqueId();
-        int currentLevel = user.getLevel();
-        int currentExp = databaseManager.getPlayerExp(playerId);
-        int requiredExpForNextLevel = ConfigManager.getRequiredExpForNextLevel(currentLevel);
+        User user = userManager.getUserData(player.getUniqueId());
 
-        if(requiredExpForNextLevel < 0) {
-            return;
-        }
+        if (user != null) {
+            int currentLevel = user.getLevel();
+            int currentExp = user.getExp();
+            int requiredExpForNextLevel = ConfigManager.getRequiredExpForNextLevel(currentLevel);
 
-        if (currentLevel == ConfigManager.getMaxLevel()) {
-            player.setExp(0.999f);
-        } else {
-            double progressPercentage = (double) currentExp / requiredExpForNextLevel * 100;
-            float expProgress = (float) (progressPercentage / 100.0);
-            player.setLevel(currentLevel);
-            player.setExp(expProgress);
+            if (requiredExpForNextLevel < 0) {
+                return;
+            }
+
+            if (currentLevel == ConfigManager.getMaxLevel()) {
+                player.setExp(0.999f);
+            } else {
+                double progressPercentage = (double) currentExp / requiredExpForNextLevel * 100;
+                float expProgress = (float) (progressPercentage / 100.0);
+                player.setLevel(currentLevel);
+                player.setExp(expProgress);
+            }
         }
     }
-
 }

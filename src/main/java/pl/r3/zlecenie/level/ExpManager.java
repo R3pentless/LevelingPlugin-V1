@@ -1,4 +1,4 @@
-package pl.r3.zlecenie;
+package pl.r3.zlecenie.level;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -14,31 +14,31 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.r3.zlecenie.Zlecenie;
 import pl.r3.zlecenie.config.ConfigManager;
-import pl.r3.zlecenie.level.LevelManager;
-import pl.r3.zlecenie.user.UserData;
+import pl.r3.zlecenie.user.User;
+import pl.r3.zlecenie.user.UserManager;
 
 import java.text.DecimalFormat;
-import java.util.UUID;
 
 public class ExpManager implements Listener {
     DecimalFormat df = new DecimalFormat("0.00");
 
-    private final JavaPlugin plugin;
-    private final LevelManager levelManager;
-    private final UserManager userManager;
-    private final ConfigManager configManager;
+    private JavaPlugin plugin;
+    private LevelManager levelManager;
+    private UserManager userManager;
+    private ConfigManager configManager;
 
-    public ExpManager(JavaPlugin plugin, LevelManager levelManager, ConfigManager configManager) {
-        this.plugin = plugin;
-        this.levelManager = levelManager;
+    public ExpManager(Zlecenie zlecenie, LevelManager lvlManager, UserManager userManager, ConfigManager configManager) {
+        this.plugin = zlecenie;
+        this.levelManager = lvlManager;
         this.userManager = userManager;
         this.configManager = configManager;
     }
 
-    private void awardExp(Player player, int exp) {
-        UUID playerId = player.getUniqueId();
-        UserData user = userManager.getUserByUUID(playerId).orElse(null);
+
+    private void awardExp(Player p, int exp) {
+        User user = userManager.getUserData(p.getUniqueId());
         if (user != null) {
             int level = user.getLevel();
             int currentExp = user.getExp();
@@ -49,12 +49,14 @@ public class ExpManager implements Listener {
             String progressString = df.format(progress).replace(',', '.');
             double progressPercentage = Double.parseDouble(progressString);
 
+
             if (level < configManager.getMaxLevel()) {
+
                 String expMessage = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages_level.received_exp")
                         .replace("%exp%", String.valueOf(exp)).replace("%currentexp%", String.valueOf(currentExp)).replace("%requiredexp%", String.valueOf(requiredExp)).replace("%percent%", String.valueOf(progressPercentage)));
-                sendActionBar(player, expMessage);
+                sendActionBar(p, expMessage);
                 user.setExp(currentExp);
-                userManager.updateUser(playerId, user);
+                userManager.updateUser(p.getUniqueId(), user);
             }
 
             while (currentExp >= requiredExp && level < configManager.getMaxLevel()) {
@@ -62,14 +64,14 @@ public class ExpManager implements Listener {
                 requiredExp = configManager.getRequiredExpForNextLevel(level);
                 String levelMessage = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages_level.reached_level")
                         .replace("%level%", String.valueOf(level)));
-                player.sendMessage(levelMessage);
+                p.sendMessage(levelMessage);
                 user.setExp(0);
                 user.setLevel(level);
-                userManager.updateUser(playerId, user);
+                userManager.updateUser(p.getUniqueId(), user);
             }
 
             if (level < configManager.getMaxLevel()) {
-                levelManager.displayPlayerLevel(player);
+                levelManager.displayPlayerLevel(p);
             }
         }
     }
@@ -79,7 +81,6 @@ public class ExpManager implements Listener {
         Player player = event.getPlayer();
         Block block = event.getBlock();
         Material material = block.getType();
-
         if (material.isBlock()) {
             int exp = getBlockExp(material);
             if (exp > 0) {
@@ -94,7 +95,7 @@ public class ExpManager implements Listener {
         if (blockExpSection != null && blockExpSection.contains(material.toString())) {
             return blockExpSection.getInt(material.toString());
         }
-        return 0; // Return 0 if the material is not found in the configuration
+        return 0;
     }
 
     @EventHandler

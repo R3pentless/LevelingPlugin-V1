@@ -4,12 +4,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.r3.zlecenie.config.ConfigManager;
+import pl.r3.zlecenie.gui.GuiCommand;
 import pl.r3.zlecenie.gui.GuiListener;
 import pl.r3.zlecenie.gui.GuiManager;
+import pl.r3.zlecenie.level.ExpManager;
 import pl.r3.zlecenie.level.LevelListener;
 import pl.r3.zlecenie.level.LevelManager;
+import pl.r3.zlecenie.listener.PlayerDisconnectListener;
 import pl.r3.zlecenie.listener.PlayerJoinListener;
-import pl.r3.zlecenie.user.UserData;
+import pl.r3.zlecenie.user.UserManager;
+import pl.r3.zlecenie.utills.DatabaseManager;
 
 import java.util.logging.Level;
 import java.util.stream.Stream;
@@ -19,10 +23,12 @@ public final class Zlecenie extends JavaPlugin {
     private LevelManager lvlManager;
     private ExpManager expManager;
     private PlayerJoinListener playerJoinListener;
+    private PlayerDisconnectListener playerDisconnectListener;
     private LevelListener levelListener;
     private GuiListener guiListener;
     private ConfigManager configManager;
     private GuiManager guiManager;
+    private UserManager userManager;
     private int taskId;
 
     @Override
@@ -44,45 +50,51 @@ public final class Zlecenie extends JavaPlugin {
             return;
         }
 
-        // Initialize managers
-        guiManager = new GuiManager(this, getConfig());
-
+        userManager = new UserManager();
+        guiManager = new GuiManager(this, getConfig(), userManager);
         configManager = new ConfigManager(getConfig());
 
-
-        lvlManager = new LevelManager(databaseManager, getConfig());
-
-        guiListener = new GuiListener(this, databaseManager);
-
-        expManager = new ExpManager(this, lvlManager,  configManager);
-
-        playerJoinListener = new PlayerJoinListener(databaseManager);
-
+        lvlManager = new LevelManager(databaseManager, userManager);
+        expManager = new ExpManager(this, lvlManager, userManager, configManager);
+        guiListener = new GuiListener(this, databaseManager, userManager, guiManager);
+        playerJoinListener = new PlayerJoinListener(databaseManager, userManager);
+        playerDisconnectListener = new PlayerDisconnectListener(databaseManager, userManager);
         levelListener = new LevelListener();
 
-        // Register event listeners
         Stream.of(
                 lvlManager,
                 guiListener,
                 expManager,
                 playerJoinListener,
+                playerDisconnectListener,
                 levelListener
         ).forEach(listener -> getServer().getPluginManager().registerEvents((Listener) listener, this));
 
+        // Register GUI command
         getCommand("zlecenie").setExecutor(new GuiCommand(this, databaseManager, guiManager));
 
+        // Schedule task
         int delay = 6000; // 5 minutes (20 ticks per second)
         int period = 6000; // 5 minutes
         taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-//missing
+            Bukkit.getOnlinePlayers().forEach(player -> {
+                userManager.sendUserToDatabase(player, databaseManager);
+            });
         }, delay, period);
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            userManager.loadUserFromDatabase(player, databaseManager);
+        });
     }
+
 
     @Override
     public void onDisable() {
         // Cancel the scheduled task
         Bukkit.getScheduler().cancelTask(taskId);
 
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            userManager.sendUserToDatabase(player, databaseManager);
+        });
         // Disconnect from the database
         if (databaseManager != null) {
             databaseManager.disconnect();

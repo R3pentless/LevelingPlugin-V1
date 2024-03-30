@@ -1,11 +1,11 @@
-package pl.r3.zlecenie;
+package pl.r3.zlecenie.gui;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pl.r3.zlecenie.gui.GuiListener;
-import pl.r3.zlecenie.gui.GuiManager;
+import pl.r3.zlecenie.utills.DatabaseManager;
+import pl.r3.zlecenie.Zlecenie;
 
 public class GuiCommand implements CommandExecutor {
 

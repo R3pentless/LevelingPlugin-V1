@@ -1,4 +1,4 @@
-package pl.r3.zlecenie;
+package pl.r3.zlecenie.utills;
 
 import java.sql.*;
 import java.util.UUID;

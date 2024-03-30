@@ -1,37 +1,28 @@
 package pl.r3.zlecenie.listener;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import pl.r3.zlecenie.DatabaseManager;
-import pl.r3.zlecenie.user.UserData;
-
-import java.util.Optional;
-import java.util.UUID;
+import pl.r3.zlecenie.utills.DatabaseManager;
+import pl.r3.zlecenie.user.UserManager;
 
 public class PlayerDisconnectListener implements Listener {
 
-    private final UserManager userManager;
-    private final DatabaseManager databaseManager;
+    private UserManager userManager;
+    private DatabaseManager databaseManager;
 
-    public PlayerDisconnectListener(UserManager userManager, DatabaseManager databaseManager) {
-        this.userManager = userManager;
+    public PlayerDisconnectListener(DatabaseManager databaseManager, UserManager userManager) {
         this.databaseManager = databaseManager;
+        this.userManager = userManager;
     }
 
     @EventHandler
     public void onPlayerDisconnect(PlayerQuitEvent event) {
-        // Retrieve the player's UUID
-        UUID playerId = event.getPlayer().getUniqueId();
-
-        // Retrieve the user from the user manager
-        Optional<UserData> userOptional = userManager.getUserByUUID(playerId);
-
-        // If the user exists, update their data in the database
-        userOptional.ifPresent(user -> {
-            databaseManager.updatePlayerLevel(playerId, user.getLevel());
-            databaseManager.updatePlayerExp(playerId, user.getExp());
-            databaseManager.updateHighestRewardReceived(playerId, user.getHighestRewardReceived());
-        });
+        Player player = event.getPlayer();
+        if (databaseManager != null && userManager != null) {
+            userManager.sendUserToDatabase(player, databaseManager);
+            userManager.removeUser(player.getUniqueId());
+        }
     }
 }
