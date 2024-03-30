@@ -5,10 +5,10 @@ database:
   username: "root"
   password: ""
 gui:
-  name: "&8nazwa"
-  size: 27
+  name: "&8Poziomy - Menu"
+  size: 54
   items:
-    - slot: 0
+    - slot: 10
       type_unclaimed: chest_minecart
       type_claimed: minecart
       amount: 1
@@ -18,6 +18,77 @@ gui:
       lore_claimed: "&7This reward has already been claimed"
       reward: true
       reward_number: 1
+      level_required: 1
+      rewards:
+        - reward: 1
+          type: stone
+          amount: 1
+          name: "Cool Reward"
+          lore: "&bThis is a cool reward"
+    - slot: 11
+      type_unclaimed: chest_minecart
+      type_claimed: minecart
+      amount: 1
+      name_unclaimed: "&5Nagroda #2"
+      lore_unclaimed: "&7This is the second reward||&7linijka2"
+      name_claimed: "&5Nagroda #2 (Claimed)"
+      lore_claimed: "&7This reward has already been claimed"
+      reward: true
+      reward_number: 2
+      level_required: 2
+      rewards:
+        - reward: 1
+          type: stone
+          amount: 1
+          name: "Cool Reward"
+          lore: "&bThis is a cool reward"
+
+    - slot: 12
+      type_unclaimed: chest_minecart
+      type_claimed: minecart
+      amount: 1
+      name_unclaimed: "&5Nagroda #3"
+      lore_unclaimed: "&7This is the third reward||&7linijka2"
+      name_claimed: "&5Nagroda #3 (Claimed)"
+      lore_claimed: "&7This reward has already been claimed"
+      reward: true
+      reward_number: 3
+      level_required: 3
+      rewards:
+        - reward: 1
+          type: stone
+          amount: 1
+          name: "Cool Reward"
+          lore: "&bThis is a cool reward"
+
+    - slot: 13
+      type_unclaimed: chest_minecart
+      type_claimed: minecart
+      amount: 1
+      name_unclaimed: "&5Nagroda #4"
+      lore_unclaimed: "&7This is the fourth reward||&7linijka2"
+      name_claimed: "&5Nagroda #4 (Claimed)"
+      lore_claimed: "&7This reward has already been claimed"
+      reward: true
+      reward_number: 4
+      level_required: 4
+      rewards:
+        - reward: 1
+          type: stone
+          amount: 1
+          name: "Cool Reward"
+          lore: "&bThis is a cool reward"
+
+    - slot: 14
+      type_unclaimed: chest_minecart
+      type_claimed: minecart
+      amount: 1
+      name_unclaimed: "&5Nagroda #5"
+      lore_unclaimed: "&7This is the fifth reward||&7linijka2"
+      name_claimed: "&5Nagroda #5 (Claimed)"
+      lore_claimed: "&7This reward has already been claimed"
+      reward: true
+      reward_number: 5
       level_required: 5
       rewards:
         - reward: 1
@@ -25,21 +96,237 @@ gui:
           amount: 1
           name: "Cool Reward"
           lore: "&bThis is a cool reward"
-  items-decoration:
-    - slot: 10
-      type: RED_STAINED_GLASS_PANE
+
+    - slot: 15
+      type_unclaimed: chest_minecart
+      type_claimed: minecart
       amount: 1
-      name: "&7Name"
-      lore: "&7decoration||&7line2"
+      name_unclaimed: "&5Nagroda #6"
+      lore_unclaimed: "&7This is the sixth reward||&7linijka2"
+      name_claimed: "&5Nagroda #6 (Claimed)"
+      lore_claimed: "&7This reward has already been claimed"
+      reward: true
+      reward_number: 6
+      level_required: 6
+      rewards:
+        - reward: 1
+          type: stone
+          amount: 1
+          name: "Cool Reward"
+          lore: "&bThis is a cool reward"
+
+    - slot: 16
+      type_unclaimed: chest_minecart
+      type_claimed: minecart
+      amount: 1
+      name_unclaimed: "&5Nagroda #7"
+      lore_unclaimed: "&7This is the seventh reward||&7linijka2"
+      name_claimed: "&5Nagroda #7 (Claimed)"
+      lore_claimed: "&7This reward has already been claimed"
+      reward: true
+      reward_number: 7
+      level_required: 35
+      rewards:
+        - reward: 1
+          type: stone
+          amount: 1
+          name: "Cool Reward"
+          lore: "&bThis is a cool reward"
+
+    - slot: 19
+      type_unclaimed: chest_minecart
+      type_claimed: minecart
+      amount: 1
+      name_unclaimed: "&5Nagroda #8"
+      lore_unclaimed: "&7This is the eighth reward||&7linijka2"
+      name_claimed: "&5Nagroda #8 (Claimed)"
+      lore_claimed: "&7This reward has already been claimed"
+      reward: true
+      reward_number: 8
+      level_required: 40
+      rewards:
+        - reward: 1
+          type: stone
+          amount: 1
+          name: "Cool Reward"
+          lore: "&bThis is a cool reward"
+
+    - slot: 20
+      type_unclaimed: chest_minecart
+      type_claimed: minecart
+      amount: 1
+      name_unclaimed: "&5Nagroda #9"
+      lore_unclaimed: "&7This is the ninth reward||&7linijka2"
+      name_claimed: "&5Nagroda #9 (Claimed)"
+      lore_claimed: "&7This reward has already been claimed"
+      reward: true
+      reward_number: 9
+      level_required: 45
+      rewards:
+        - reward: 1
+          type: stone
+          amount: 1
+          name: "Cool Reward"
+          lore: "&bThis is a cool reward"
+
+    - slot: 21
+      type_unclaimed: chest_minecart
+      type_claimed: minecart
+      amount: 1
+      name_unclaimed: "&5Nagroda #10"
+      lore_unclaimed: "&7This is the tenth reward||&7linijka2"
+      name_claimed: "&5Nagroda #10 (Claimed)"
+      lore_claimed: "&7This reward has already been claimed"
+      reward: true
+      reward_number: 10
+      level_required: 50
+      rewards:
+        - reward: 1
+          type: stone
+          amount: 1
+          name: "Cool Reward"
+          lore: "&bThis is a cool reward"
+
+  items-decoration:
+    - slot: 0
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 1
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 2
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 3
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 4
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 5
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 6
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 7
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 8
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 9
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 17
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 18
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 26
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 27
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 35
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 36
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 44
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 45
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 46
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 47
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 48
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 49
+      type: HOPPER
+      amount: 1
+      name: "&f&lINFO"
+      lore: "&7Jakies tam info"
+    - slot: 50
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 51
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 52
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
+    - slot: 53
+      type: GRAY_STAINED_GLASS_PANE
+      amount: 1
+      name: "&7"
+
 
 messages:
-  no_requirements: "&7Nie spelniasz wymogow aby odebrac ta nagrode!"
-  already_claimed: "&cJuz odebrales ta nagrode!"
-  claim_success: "&aOdebrales nagrode!"
+  no_requirements: "&x&0&0&F&F&E&0&lP&x&0&C&E&7&E&4&lO&x&1&8&C&F&E&9&lZ&x&2&5&B&8&E&D&lI&x&3&1&A&0&F&1&lO&x&3&D&8&8&F&6&lM&x&4&9&7&0&F&A&lY &8- &cNajpierw odbierz poprzednie nagrody!"
+  already_claimed: "&x&0&0&F&F&E&0&lP&x&0&C&E&7&E&4&lO&x&1&8&C&F&E&9&lZ&x&2&5&B&8&E&D&lI&x&3&1&A&0&F&1&lO&x&3&D&8&8&F&6&lM&x&4&9&7&0&F&A&lY &8- &cJuz odebrales ta nagrode!"
+  claim_success: "&x&0&0&F&F&E&0&lP&x&0&C&E&7&E&4&lO&x&1&8&C&F&E&9&lZ&x&2&5&B&8&E&D&lI&x&3&1&A&0&F&1&lO&x&3&D&8&8&F&6&lM&x&4&9&7&0&F&A&lY &8- &aOdebrales nagrode!"
 messages_level:
   received_exp: "+%exp% [%currentexp%/%requiredexp%] (%percent%%)"
-  reached_level: "&aCongratulations! You've reached level %level%."
-  too_low_level: "&cYou need to be at least level %level_required% to claim this reward!"
+  reached_level: "&x&0&0&F&F&E&0&lP&x&0&C&E&7&E&4&lO&x&1&8&C&F&E&9&lZ&x&2&5&B&8&E&D&lI&x&3&1&A&0&F&1&lO&x&3&D&8&8&F&6&lM&x&4&9&7&0&F&A&lY &8- &aWlasnie osiagnales poziom: &1%level%."
+  too_low_level: "&x&0&0&F&F&E&0&lP&x&0&C&E&7&E&4&lO&x&1&8&C&F&E&9&lZ&x&2&5&B&8&E&D&lI&x&3&1&A&0&F&1&lO&x&3&D&8&8&F&6&lM&x&4&9&7&0&F&A&lY &8- &cMusisz miec przynajmniej %level_required% poziom aby odebrac ta nagrode!"
 exp:
   activities:
     entities:
