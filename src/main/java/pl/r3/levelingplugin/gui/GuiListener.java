@@ -1,4 +1,4 @@
-package pl.r3.zlecenie.gui;
+package pl.r3.levelingplugin.gui;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -9,32 +9,31 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import pl.r3.zlecenie.utills.DatabaseManager;
-import pl.r3.zlecenie.Zlecenie;
-import pl.r3.zlecenie.user.UserManager;
-import pl.r3.zlecenie.utills.ColorFixer;
-import pl.r3.zlecenie.user.User;
+import pl.r3.levelingplugin.LevelingPlugin;
+import pl.r3.levelingplugin.utills.DatabaseManager;
+import pl.r3.levelingplugin.user.User;
+import pl.r3.levelingplugin.user.UserManager;
+import pl.r3.levelingplugin.utills.ColorFixer;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class GuiListener implements Listener {
 
-    private Zlecenie plugin;
+    private LevelingPlugin plugin;
     private DatabaseManager databaseManager;
     private UserManager userManager;
     private GuiManager guiManager;
     private ColorFixer colorFixer;
 
-
-    public GuiListener(Zlecenie plugin, DatabaseManager databaseManager, UserManager userManager, GuiManager guiManager) {
+    public GuiListener(LevelingPlugin plugin, DatabaseManager databaseManager, UserManager userManager, GuiManager guiManager) {
         this.plugin = plugin;
         this.databaseManager = databaseManager;
         this.userManager = userManager;
         this.guiManager = guiManager;
         this.colorFixer = new ColorFixer();
     }
-
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
@@ -86,8 +85,10 @@ public class GuiListener implements Listener {
                                     }
                                     if (rewardMap.containsKey("lore")) {
                                         Object loreObj = rewardMap.get("lore");
-                                        if (loreObj instanceof List) {
-                                            meta.setLore((List<String>) loreObj);
+                                        if (loreObj instanceof String) {
+                                            String rawLore = (String) loreObj;
+                                            String[] lines = rawLore.split("\\|\\|"); // Split on "||"
+                                            meta.setLore(Arrays.asList(lines)); // Set the lore
                                         } else {
                                             plugin.getLogger().warning("Invalid lore format for reward item: " + loreObj);
                                         }
@@ -101,10 +102,10 @@ public class GuiListener implements Listener {
                                 }
                             }
                         }
-                    }else if (playerLevel < rewardNumber){
+                    } else if (playerLevel < rewardNumber){
                         int requiredLevel = Integer.parseInt(itemMap.get("level_required").toString());
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages_level.too_low_level")).replace("%level_required%", String.valueOf(requiredLevel)));
-                    }else if (highestRewardNumber + 1 > rewardNumber) {
+                    } else if (highestRewardNumber + 1 > rewardNumber) {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.already_claimed")));
                     } else {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.no_requirements")));

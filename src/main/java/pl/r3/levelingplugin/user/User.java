@@ -1,4 +1,4 @@
-package pl.r3.zlecenie.user;
+package pl.r3.levelingplugin.user;
 
 import java.util.UUID;
 

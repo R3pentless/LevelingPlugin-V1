@@ -1,4 +1,4 @@
-package pl.r3.zlecenie.config;
+package pl.r3.levelingplugin.config;
 
 import org.bukkit.configuration.file.FileConfiguration;
 

@@ -1,4 +1,4 @@
-package pl.r3.zlecenie.level;
+package pl.r3.levelingplugin.level;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -14,10 +14,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import pl.r3.zlecenie.Zlecenie;
-import pl.r3.zlecenie.config.ConfigManager;
-import pl.r3.zlecenie.user.User;
-import pl.r3.zlecenie.user.UserManager;
+import pl.r3.levelingplugin.LevelingPlugin;
+import pl.r3.levelingplugin.config.ConfigManager;
+import pl.r3.levelingplugin.user.User;
+import pl.r3.levelingplugin.user.UserManager;
 
 import java.text.DecimalFormat;
 
@@ -29,8 +29,8 @@ public class ExpManager implements Listener {
     private UserManager userManager;
     private ConfigManager configManager;
 
-    public ExpManager(Zlecenie zlecenie, LevelManager lvlManager, UserManager userManager, ConfigManager configManager) {
-        this.plugin = zlecenie;
+    public ExpManager(LevelingPlugin levelingPlugin, LevelManager lvlManager, UserManager userManager, ConfigManager configManager) {
+        this.plugin = levelingPlugin;
         this.levelManager = lvlManager;
         this.userManager = userManager;
         this.configManager = configManager;

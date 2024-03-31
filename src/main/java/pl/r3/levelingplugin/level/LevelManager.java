@@ -1,12 +1,11 @@
-package pl.r3.zlecenie.level;
+package pl.r3.levelingplugin.level;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import pl.r3.zlecenie.utills.DatabaseManager;
-import pl.r3.zlecenie.config.ConfigManager;
-import pl.r3.zlecenie.user.User;
-import pl.r3.zlecenie.user.UserManager;
+import pl.r3.levelingplugin.utills.DatabaseManager;
+import pl.r3.levelingplugin.config.ConfigManager;
+import pl.r3.levelingplugin.user.User;
+import pl.r3.levelingplugin.user.UserManager;
 
 public class LevelManager implements Listener {
     private DatabaseManager databaseManager;

@@ -1,4 +1,4 @@
-package pl.r3.zlecenie.utills;
+package pl.r3.levelingplugin.utills;
 
 import net.md_5.bungee.api.ChatColor;
 

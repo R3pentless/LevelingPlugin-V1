@@ -1,4 +1,4 @@
-package pl.r3.zlecenie.utills;
+package pl.r3.levelingplugin.utills;
 
 import java.sql.*;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package pl.r3.zlecenie.gui;
+package pl.r3.levelingplugin.gui;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -8,10 +8,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import pl.r3.zlecenie.Zlecenie;
-import pl.r3.zlecenie.utills.ColorFixer;
-import pl.r3.zlecenie.user.User;
-import pl.r3.zlecenie.user.UserManager;
+import pl.r3.levelingplugin.LevelingPlugin;
+import pl.r3.levelingplugin.utills.ColorFixer;
+import pl.r3.levelingplugin.user.User;
+import pl.r3.levelingplugin.user.UserManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +20,11 @@ import java.util.Map;
 public class GuiManager {
     private static FileConfiguration config;
     private static ColorFixer colorFixer;
-    private static Zlecenie plugin;
+    private static LevelingPlugin plugin;
     private static UserManager userManager;
 
-    public GuiManager(Zlecenie zlecenie, FileConfiguration config, UserManager userManager) {
-        this.plugin = zlecenie;
+    public GuiManager(LevelingPlugin levelingPlugin, FileConfiguration config, UserManager userManager) {
+        this.plugin = levelingPlugin;
         this.config = config;
         this.colorFixer = new ColorFixer();
         this.userManager = userManager;
@@ -94,12 +94,14 @@ public class GuiManager {
                     int slot = Integer.parseInt(itemMap.get("slot").toString());
                     Material itemType = Material.matchMaterial(itemMap.get("type").toString());
                     if (itemType != null) {
+
                         ItemStack itemStack = new ItemStack(itemType);
                         ItemMeta meta = itemStack.getItemMeta();
                         String itemName = ChatColor.translateAlternateColorCodes('&', itemMap.get("name").toString());
                         meta.setDisplayName(itemName);
 
                         List<String> lore = new ArrayList<>();
+
                         if (itemMap.containsKey("lore")) {
                             String rawLore = itemMap.get("lore").toString();
                             String[] lines = rawLore.split("\\|\\|");
@@ -107,9 +109,11 @@ public class GuiManager {
                                 lore.add(ChatColor.translateAlternateColorCodes('&', line.trim()));
                             }
                         }
+
                         meta.setLore(lore);
                         itemStack.setItemMeta(meta);
                         inv.setItem(slot, itemStack);
+
                     } else {
                         plugin.getLogger().warning("Invalid material type specified for decoration item.");
                     }

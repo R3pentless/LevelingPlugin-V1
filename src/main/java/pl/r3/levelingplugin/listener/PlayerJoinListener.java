@@ -1,11 +1,11 @@
-package pl.r3.zlecenie.listener;
+package pl.r3.levelingplugin.listener;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import pl.r3.zlecenie.utills.DatabaseManager;
-import pl.r3.zlecenie.user.UserManager;
+import pl.r3.levelingplugin.utills.DatabaseManager;
+import pl.r3.levelingplugin.user.UserManager;
 
 public class PlayerJoinListener implements Listener {
     private UserManager userManager;

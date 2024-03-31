@@ -4,6 +4,10 @@ database:
   database: "zlecenie"
   username: "root"
   password: ""
+autosave:
+  delay: 6000
+  autosave_message: true
+  message: "&x&0&0&F&F&E&0&lP&x&0&C&E&7&E&4&lO&x&1&8&C&F&E&9&lZ&x&2&5&B&8&E&D&lI&x&3&1&A&0&F&1&lO&x&3&D&8&8&F&6&lM&x&4&9&7&0&F&A&lY &8- &aAutoSave Wykonany!"
 gui:
   name: "&8Poziomy - Menu"
   size: 54
@@ -42,7 +46,6 @@ gui:
           amount: 1
           name: "Cool Reward"
           lore: "&bThis is a cool reward"
-
     - slot: 12
       type_unclaimed: chest_minecart
       type_claimed: minecart
@@ -60,7 +63,6 @@ gui:
           amount: 1
           name: "Cool Reward"
           lore: "&bThis is a cool reward"
-
     - slot: 13
       type_unclaimed: chest_minecart
       type_claimed: minecart
@@ -78,7 +80,6 @@ gui:
           amount: 1
           name: "Cool Reward"
           lore: "&bThis is a cool reward"
-
     - slot: 14
       type_unclaimed: chest_minecart
       type_claimed: minecart
@@ -96,7 +97,6 @@ gui:
           amount: 1
           name: "Cool Reward"
           lore: "&bThis is a cool reward"
-
     - slot: 15
       type_unclaimed: chest_minecart
       type_claimed: minecart
@@ -114,7 +114,6 @@ gui:
           amount: 1
           name: "Cool Reward"
           lore: "&bThis is a cool reward"
-
     - slot: 16
       type_unclaimed: chest_minecart
       type_claimed: minecart
@@ -132,7 +131,6 @@ gui:
           amount: 1
           name: "Cool Reward"
           lore: "&bThis is a cool reward"
-
     - slot: 19
       type_unclaimed: chest_minecart
       type_claimed: minecart
@@ -150,7 +148,6 @@ gui:
           amount: 1
           name: "Cool Reward"
           lore: "&bThis is a cool reward"
-
     - slot: 20
       type_unclaimed: chest_minecart
       type_claimed: minecart
@@ -168,7 +165,6 @@ gui:
           amount: 1
           name: "Cool Reward"
           lore: "&bThis is a cool reward"
-
     - slot: 21
       type_unclaimed: chest_minecart
       type_claimed: minecart
@@ -186,113 +182,91 @@ gui:
           amount: 1
           name: "Cool Reward"
           lore: "&bThis is a cool reward"
-
   items-decoration:
     - slot: 0
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 1
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 2
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 3
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 4
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 5
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 6
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 7
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 8
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 9
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 17
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 18
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 26
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 27
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 35
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 36
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 44
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 45
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 46
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 47
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 48
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 49
       type: HOPPER
       amount: 1
@@ -302,23 +276,18 @@ gui:
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 51
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 52
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
     - slot: 53
       type: GRAY_STAINED_GLASS_PANE
       amount: 1
       name: "&7"
-
-
 messages:
   no_requirements: "&x&0&0&F&F&E&0&lP&x&0&C&E&7&E&4&lO&x&1&8&C&F&E&9&lZ&x&2&5&B&8&E&D&lI&x&3&1&A&0&F&1&lO&x&3&D&8&8&F&6&lM&x&4&9&7&0&F&A&lY &8- &cNajpierw odbierz poprzednie nagrody!"
   already_claimed: "&x&0&0&F&F&E&0&lP&x&0&C&E&7&E&4&lO&x&1&8&C&F&E&9&lZ&x&2&5&B&8&E&D&lI&x&3&1&A&0&F&1&lO&x&3&D&8&8&F&6&lM&x&4&9&7&0&F&A&lY &8- &cJuz odebrales ta nagrode!"

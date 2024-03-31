@@ -1,24 +1,26 @@
-package pl.r3.zlecenie;
+package pl.r3.levelingplugin;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import pl.r3.zlecenie.config.ConfigManager;
-import pl.r3.zlecenie.gui.GuiCommand;
-import pl.r3.zlecenie.gui.GuiListener;
-import pl.r3.zlecenie.gui.GuiManager;
-import pl.r3.zlecenie.level.ExpManager;
-import pl.r3.zlecenie.level.LevelListener;
-import pl.r3.zlecenie.level.LevelManager;
-import pl.r3.zlecenie.listener.PlayerDisconnectListener;
-import pl.r3.zlecenie.listener.PlayerJoinListener;
-import pl.r3.zlecenie.user.UserManager;
-import pl.r3.zlecenie.utills.DatabaseManager;
+import pl.r3.levelingplugin.config.ConfigManager;
+import pl.r3.levelingplugin.gui.GuiCommand;
+import pl.r3.levelingplugin.gui.GuiListener;
+import pl.r3.levelingplugin.gui.GuiManager;
+import pl.r3.levelingplugin.level.ExpManager;
+import pl.r3.levelingplugin.level.LevelListener;
+import pl.r3.levelingplugin.level.LevelManager;
+import pl.r3.levelingplugin.listener.PlayerDisconnectListener;
+import pl.r3.levelingplugin.listener.PlayerJoinListener;
+import pl.r3.levelingplugin.user.UserManager;
+import pl.r3.levelingplugin.utills.DatabaseManager;
 
 import java.util.logging.Level;
 import java.util.stream.Stream;
 
-public final class Zlecenie extends JavaPlugin {
+public final class LevelingPlugin extends JavaPlugin {
     private DatabaseManager databaseManager;
     private LevelManager lvlManager;
     private ExpManager expManager;
@@ -29,7 +31,7 @@ public final class Zlecenie extends JavaPlugin {
     private ConfigManager configManager;
     private GuiManager guiManager;
     private UserManager userManager;
-    private int taskId;
+    private int autoSave;
 
     @Override
     public void onEnable() {
@@ -70,32 +72,41 @@ public final class Zlecenie extends JavaPlugin {
                 levelListener
         ).forEach(listener -> getServer().getPluginManager().registerEvents((Listener) listener, this));
 
-        // Register GUI command
-        getCommand("zlecenie").setExecutor(new GuiCommand(this, databaseManager, guiManager));
+        getCommand("poziomy").setExecutor(new GuiCommand(this, databaseManager, guiManager));
 
-        // Schedule task
-        int delay = 6000; // 5 minutes (20 ticks per second)
-        int period = 6000; // 5 minutes
-        taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+        reloadConfig();
+        int autoSaveDelay = getConfig().getInt("autosave.delay");
+
+        if (autoSave != 0) {
+            Bukkit.getScheduler().cancelTask(autoSave);
+        }
+
+        autoSave = Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
             Bukkit.getOnlinePlayers().forEach(player -> {
                 userManager.sendUserToDatabase(player, databaseManager);
+                if(getConfig().getBoolean("autosave.autosave_message") == true){
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("autosave.message")));
+                }
+
             });
-        }, delay, period);
+        }, 0, autoSaveDelay);
+
         Bukkit.getOnlinePlayers().forEach(player -> {
             userManager.loadUserFromDatabase(player, databaseManager);
         });
     }
 
 
+
     @Override
     public void onDisable() {
-        // Cancel the scheduled task
-        Bukkit.getScheduler().cancelTask(taskId);
+        Bukkit.getScheduler().cancelTask(autoSave);
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             userManager.sendUserToDatabase(player, databaseManager);
         });
-        // Disconnect from the database
+
+
         if (databaseManager != null) {
             databaseManager.disconnect();
         }
@@ -108,7 +119,6 @@ public final class Zlecenie extends JavaPlugin {
         String username = getConfig().getString("database.username");
         String password = getConfig().getString("database.password");
 
-        // Initialize DatabaseManager
         databaseManager = new DatabaseManager(host, port, database, username, password);
     }
 

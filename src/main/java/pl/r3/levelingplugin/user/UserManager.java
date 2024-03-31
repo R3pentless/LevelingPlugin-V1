@@ -1,7 +1,7 @@
-package pl.r3.zlecenie.user;
+package pl.r3.levelingplugin.user;
 
 import org.bukkit.entity.Player;
-import pl.r3.zlecenie.utills.DatabaseManager;
+import pl.r3.levelingplugin.utills.DatabaseManager;
 
 import java.util.HashMap;
 import java.util.Map;

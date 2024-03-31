@@ -1,4 +1,4 @@
-package pl.r3.zlecenie.level;
+package pl.r3.levelingplugin.level;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

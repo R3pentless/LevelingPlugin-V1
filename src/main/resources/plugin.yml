@@ -1,9 +1,10 @@
-name: zlecenie
+name: levelingplugin
 version: '${project.version}'
-main: pl.r3.zlecenie.Zlecenie
+main: pl.r3.levelingplugin.LevelingPlugin
 api-version: '1.20'
 commands:
-  zlecenie:
-    description: Open the XP Rewards GUI
-    usage: /zlecenie
+  poziomy:
+    description: Open the LVL Rewards GUI
+    usage: /poziomy
+    aliases: /lvl
     permission: yourplugin.command.opengui
