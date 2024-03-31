@@ -4,18 +4,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pl.r3.levelingplugin.LevelingPlugin;
-import pl.r3.levelingplugin.utills.DatabaseManager;
 
 public class GuiCommand implements CommandExecutor {
 
-    private final LevelingPlugin plugin;
-    private final DatabaseManager databaseManager;
     private final GuiManager guiManager;
 
-    public GuiCommand(LevelingPlugin plugin, DatabaseManager databaseManager, GuiManager guiManager) {
-        this.plugin = plugin;
-        this.databaseManager = databaseManager;
+    public GuiCommand(GuiManager guiManager) {
         this.guiManager = guiManager;
     }
 

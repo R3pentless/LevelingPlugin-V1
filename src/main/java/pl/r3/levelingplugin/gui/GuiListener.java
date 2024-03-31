@@ -50,9 +50,9 @@ public class GuiListener implements Listener {
         ItemStack clickedItem = event.getCurrentItem();
 
         if (clickedItem != null && !clickedItem.getType().equals(Material.AIR)) {
-
-            int playerLevel = databaseManager.getPlayerLevel(player.getUniqueId());
-            int highestRewardNumber = databaseManager.getHighestRewardReceived(player.getUniqueId());
+            User user = userManager.getUserData(player.getUniqueId());
+            int playerLevel = user.getLevel();
+            int highestRewardNumber = user.getHighestReward();
 
             int slot = event.getRawSlot();
             if (slot >= 0 && slot < event.getInventory().getSize()) {
@@ -74,7 +74,6 @@ public class GuiListener implements Listener {
                             List<Map<?, ?>> rewardsList = (List<Map<?, ?>>) itemMap.get("rewards");
                             boolean canClaim = true;
                             if (canClaim) {
-                                User user = userManager.getUserData(player.getUniqueId());
                                 for (Map<?, ?> rewardMap : rewardsList) {
                                     String type = rewardMap.get("type").toString();
                                     int amount = Integer.parseInt(rewardMap.get("amount").toString());
@@ -95,7 +94,6 @@ public class GuiListener implements Listener {
                                     }
                                     rewardItem.setItemMeta(meta);
                                     player.getInventory().addItem(rewardItem);
-                                    databaseManager.updateHighestRewardReceived(player.getUniqueId(), highestRewardNumber + 1);
                                     user.claimReward(rewardNumber); // Update highestReward field
                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.claim_success")));
                                     guiManager.openRewardsGUI(player); // Reload GUI after claiming reward

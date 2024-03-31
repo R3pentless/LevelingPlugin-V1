@@ -72,7 +72,7 @@ public final class LevelingPlugin extends JavaPlugin {
                 levelListener
         ).forEach(listener -> getServer().getPluginManager().registerEvents((Listener) listener, this));
 
-        getCommand("poziomy").setExecutor(new GuiCommand(this, databaseManager, guiManager));
+        getCommand("poziomy").setExecutor(new GuiCommand( guiManager));
 
         reloadConfig();
         int autoSaveDelay = getConfig().getInt("autosave.delay");
